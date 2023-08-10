@@ -1,0 +1,138 @@
+name: srlk8s
+prefix: ""
+
+topology:
+  kinds:
+    srl:
+      image: ghcr.io/nokia/srlinux:23.3.3
+    linux:
+      image: ghcr.io/hellt/network-multitool
+
+  nodes:
+    ### fabric ###
+    leaf1:
+      kind: srl
+      type: ixrd2l
+      startup-config: configs/leaf1.conf
+    leaf2:
+      kind: srl
+      type: ixrd2l
+      startup-config: configs/leaf2.conf
+    leaf3:
+      kind: srl
+      type: ixrd2l
+      startup-config: configs/leaf3.conf
+    leaf4:
+      kind: srl
+      type: ixrd2l
+      startup-config: configs/leaf4.conf
+    spine1:
+      kind: srl
+      type: ixrd3l
+      startup-config: configs/spine1.conf
+    spine2:
+      kind: srl
+      type: ixrd3l
+      startup-config: configs/spine2.conf
+    
+    ### minikube cluster ###
+    cluster1: 
+      kind: ext-container
+      exec:
+        - ip address add 192.168.1.11/24 dev eth1
+        - ip route add 192.168.0.0/16 via 192.168.1.1
+    cluster1-m02: 
+      kind: ext-container
+      exec:
+        - ip address add 192.168.1.12/24 dev eth1
+        - ip route add 192.168.0.0/16 via 192.168.1.1
+    cluster1-m03: 
+      kind: ext-container
+      exec:
+        - ip address add 192.168.1.13/24 dev eth1
+        - ip route add 192.168.0.0/16 via 192.168.1.1
+
+
+
+    ####  clients ###
+    cli1:
+     kind: linux
+     binds:
+        - configs/hostname.sh:/hostname.sh
+     exec:
+        - bash /hostname.sh
+        - ip add add 192.168.2.11/24 dev eth1
+        - ip route del 0.0.0.0/0
+        - ip route add 0.0.0.0/0 via  192.168.2.1
+
+    cli2:
+     kind: linux
+     binds:
+        - configs/hostname.sh:/hostname.sh
+     exec:
+        - bash /hostname.sh
+        - ip add add 192.168.2.12/24 dev eth1
+        - ip route del 0.0.0.0/0
+        - ip route add 0.0.0.0/0 via  192.168.2.1
+
+    cli3:
+     kind: linux
+     binds:
+        - configs/hostname.sh:/hostname.sh
+     exec:
+        - bash /hostname.sh
+        - ip add add 192.168.2.13/24 dev eth1
+        - ip route del 0.0.0.0/0
+        - ip route add 0.0.0.0/0 via  192.168.2.1
+
+    cli4:
+     kind: linux
+     binds:
+        - configs/hostname.sh:/hostname.sh
+     exec:
+        - bash /hostname.sh
+        - ip add add 192.168.2.14/24 dev eth1
+        - ip route del 0.0.0.0/0
+        - ip route add 0.0.0.0/0 via  192.168.2.1
+
+
+  links:
+  ### #### fabric ### ####
+    - endpoints: ["spine1:e1-1", "leaf1:e1-49"]
+    - endpoints: ["spine1:e1-2", "leaf2:e1-49"]
+    - endpoints: ["spine1:e1-3", "leaf3:e1-49"]
+    - endpoints: ["spine1:e1-4", "leaf4:e1-49"]
+
+    - endpoints: ["spine2:e1-1", "leaf1:e1-50"]
+    - endpoints: ["spine2:e1-2", "leaf2:e1-50"]
+    - endpoints: ["spine2:e1-3", "leaf3:e1-50"]
+    - endpoints: ["spine2:e1-4", "leaf4:e1-50"]
+
+    
+    #### minikube ####
+    - endpoints: ["leaf1:e1-1", "cluster1:eth1"]
+    - endpoints: ["leaf2:e1-1", "cluster1-m02:eth1"]
+    - endpoints: ["leaf3:e1-1", "cluster1-m03:eth1"]
+
+
+    #### clients ####
+    - endpoints: ["cli1:eth1", "leaf1:e1-2"]
+    - endpoints: ["cli2:eth1", "leaf2:e1-2"]
+    - endpoints: ["cli3:eth1", "leaf3:e1-2"]
+    - endpoints: ["cli4:eth1", "leaf4:e1-2"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
