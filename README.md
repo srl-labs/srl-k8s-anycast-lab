@@ -13,8 +13,9 @@ For a detailed walkthrough of this lab please check the [SR Linux blog](https://
 
 
 ## Topology:
-
+<p align="center">
  <img src="images/topology.svg" width="600">
+</p>
 
 ## Goal
 Demonstrate kubernetes MetalLB load balancing scenario in a Containerlab+Minukube Lab.
