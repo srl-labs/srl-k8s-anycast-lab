@@ -1,12 +1,12 @@
 # Nokia SR Linux Kubernetes Anycast Lab
 
-[Containerlab](https://containerlab.dev/)  is a game-changer for every network engineer. It helps you to effortlessly create complex network topologies and validate features, scenarios... At the same time, [Minikube](https://minikube.sigs.k8s.io/) unlocks the power of Kubernetes on your local machine to quickly test and experiment with containerized applications.
-
-Wouldn't it be great to combine both worlds?
-
 In this lab we will explore a topology consisting of a Leaf/Spine [SR Linux](https://learn.srlinux.dev/) Fabric connected to a Kubernetes Cluster.
 
 Our k8s Cluster will feature [MetalLB](https://metallb.universe.tf/), which is a load-balancer implementation for bare metal clusters. This will unlock the possibility to have **anycast** services in our fabric.
+
+To deploy this lab we will use [Containerlab](https://containerlab.dev/) which help us to effortlessly create complex network topologies and validate features, scenarios... At the same time, [Minikube](https://minikube.sigs.k8s.io/) is an open-source tool that facilitates running Kubernetes clusters locally to quickly test and experiment with containerized applications.
+
+The end service we will use on top of the kubernetes cluster is a Nginx HTTP echo server. This service will be deployed and exposed in all the k8s nodes. With simulated clients, we will verify how traffic is distributed among the different nodes/pods.
 
 For a detailed walkthrough of this lab please check the [SR Linux blog](https://learn.srlinux.dev/blog/2023/sr-linux-kubernetes-anycast-lab/).
 
@@ -34,6 +34,7 @@ Demonstrate kubernetes MetalLB load balancing scenario in a Containerlab+Minukub
 - [minikube](https://minikube.sigs.k8s.io)
 - [Docker](https://docs.docker.com/engine/install/)
 - [SR Linux Container image](https://github.com/nokia/srlinux-container-image)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
 
 ## Deploying the lab
 
@@ -99,7 +100,7 @@ cluster1$ show run
 
 
 # Check HTTP echo service
-docker exec -it cli4 curl 1.1.1.100
+docker exec -it client4 curl 1.1.1.100
 Server address: 10.244.0.3:80
 Server name: nginxhello-6b97fd8857-4vp6z
 Date: 10/Aug/2023:09:06:01 +0000
@@ -107,7 +108,7 @@ URI: /
 Request ID: f84edead22027f72b2dc951fbfe96b4f
 
 # Check HTTP echo service once again
-docker exec -it cli4 curl 1.1.1.100
+docker exec -it client4 curl 1.1.1.100
 Server address: 10.244.2.3:80
 Server name: nginxhello-6b97fd8857-b2vf8
 Date: 10/Aug/2023:09:06:03 +0000
