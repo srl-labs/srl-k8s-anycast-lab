@@ -83,7 +83,6 @@ topology:
         - bash /hostname.sh
         - bash /client4-config.sh
 
-
   links:
   ### #### fabric ### ####
     - endpoints: ["spine1:e1-1", "leaf1:e1-49"]
@@ -96,12 +95,10 @@ topology:
     - endpoints: ["spine2:e1-3", "leaf3:e1-50"]
     - endpoints: ["spine2:e1-4", "leaf4:e1-50"]
 
-    
     #### minikube ####
     - endpoints: ["leaf1:e1-1", "cluster1:eth1"]
     - endpoints: ["leaf2:e1-1", "cluster1-m02:eth1"]
     - endpoints: ["leaf3:e1-1", "cluster1-m03:eth1"]
-
 
     #### clients ####
     - endpoints: ["client1:eth1", "leaf1:e1-2"]
