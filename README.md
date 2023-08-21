@@ -44,14 +44,14 @@ git clone https://github.com/srl-labs/srl-k8s-anycast-lab && cd srl-k8s-anycast-
 ```
 
 ```bash
-# deploy containerlab topology
-clab deploy --topo srl-k8s-lab.clab.yml
-```
-
-```bash
 # deploy minikube cluster
 # you have to do this in an additional cli session to the one where clab has started
 minikube start --nodes 3 -p cluster1
+```
+
+```bash
+# deploy containerlab topology
+clab deploy --topo srl-k8s-lab.clab.yml
 ```
 
 ```bash
@@ -68,7 +68,6 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/main/config/m
 #deploy k8s HTTP echo service (wait a few seconds for metalLB to complete installation)
 kubectl apply -f metal-lb-hello-cluster1.yaml
 ```
-
 
 ## Tests
 
