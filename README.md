@@ -54,17 +54,17 @@ clab deploy --topo srl-k8s-lab.clab.yml
 ```
 
 ```bash
-#enable MetalLB addons
+# enable MetalLB addons
 minikube addons enable metallb -p cluster1
 ```
 
 ```bash
-#install MetalLB (BGP FRR mode)
+# install MetalLB (BGP FRR mode)
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/main/config/manifests/metallb-frr.yaml
 ```
 
 ```bash
-#deploy k8s HTTP echo service (wait a few seconds for metalLB to complete installation)
+# deploy k8s HTTP echo service (wait a few seconds for metalLB to complete installation)
 kubectl apply -f metal-lb-hello-cluster1.yaml
 ```
 
@@ -74,20 +74,21 @@ kubectl apply -f metal-lb-hello-cluster1.yaml
 # check underlay sessions in Spine, leaf switches
 A:spine1$ show network-instance default protocols bgp neighbor
 
-# Check MetalLB BGP sessions in Leaf switches
+# check MetalLB BGP sessions in Leaf switches
 A:leaf2$ show network-instance ip-vrf-1 protocols bgp neighbor
 
-# Check kubernetes status
+# check kubernetes status
 kubectl get nodes -o wide
 
 kubectl get pods -o wide
 
 kubectl get svc
 
-# Check MetalLB BGP sessions in kubernetes nodes
+# check MetalLB BGP speaker pods in kubernetes nodes
 kubectl get pods -A | grep speaker
 
-# change speaker-4gcj8 with the name of one of your speakers
+# connect to MetalLB speaker pod
+# change speaker-4gcj8 with the name of one of the speakers
 kubectl exec -it speaker-4gcj8 --namespace=metallb-system -- vtysh
 
 # verify BGP sessions in FRR daemon
@@ -96,8 +97,7 @@ cluster1$ show bgp summary
 # verify running config of FRR daemon
 cluster1$ show run
 
-
-# Check HTTP echo service
+# check HTTP echo service
 docker exec -it client4 curl 1.1.1.100
 Server address: 10.244.0.3:80
 Server name: nginxhello-6b97fd8857-4vp6z
@@ -105,7 +105,7 @@ Date: 10/Aug/2023:09:06:01 +0000
 URI: /
 Request ID: f84edead22027f72b2dc951fbfe96b4f
 
-# Check HTTP echo service once again
+# check HTTP echo service once again
 docker exec -it client4 curl 1.1.1.100
 Server address: 10.244.2.3:80
 Server name: nginxhello-6b97fd8857-b2vf8
