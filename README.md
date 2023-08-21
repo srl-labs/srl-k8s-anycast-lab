@@ -45,7 +45,6 @@ git clone https://github.com/srl-labs/srl-k8s-anycast-lab && cd srl-k8s-anycast-
 
 ```bash
 # deploy minikube cluster
-# you have to do this in an additional cli session to the one where clab has started
 minikube start --nodes 3 -p cluster1
 ```
 
