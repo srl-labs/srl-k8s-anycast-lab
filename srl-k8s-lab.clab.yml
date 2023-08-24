@@ -31,19 +31,19 @@ topology:
       kind: srl
       type: ixrd3l
       startup-config: configs/spine2.conf
-    
+
     ### minikube cluster ###
-    cluster1: 
+    cluster1:
       kind: ext-container
       exec:
         - ip address add 192.168.1.11/24 dev eth1
         - ip route add 192.168.0.0/16 via 192.168.1.1
-    cluster1-m02: 
+    cluster1-m02:
       kind: ext-container
       exec:
         - ip address add 192.168.1.12/24 dev eth1
         - ip route add 192.168.0.0/16 via 192.168.1.1
-    cluster1-m03: 
+    cluster1-m03:
       kind: ext-container
       exec:
         - ip address add 192.168.1.13/24 dev eth1
@@ -51,40 +51,32 @@ topology:
 
     ####  clients ###
     client1:
-     kind: linux
-     binds:
-        - configs/hostname.sh:/hostname.sh
-        - configs/client1-config.sh:/client1-config.sh
-     exec:
-        - bash /hostname.sh
-        - bash /client1-config.sh
+      kind: linux
+      binds:
+        - configs/client-config.sh:/client-config.sh
+      exec:
+        - bash /client1-config.sh 192.168.2.11
     client2:
-     kind: linux
-     binds:
-        - configs/hostname.sh:/hostname.sh
-        - configs/client2-config.sh:/client2-config.sh
-     exec:
-        - bash /hostname.sh
-        - bash /client2-config.sh
+      kind: linux
+      binds:
+        - configs/client-config.sh:/client-config.sh
+      exec:
+        - bash /client1-config.sh 192.168.2.12
     client3:
-     kind: linux
-     binds:
-        - configs/hostname.sh:/hostname.sh
-        - configs/client3-config.sh:/client3-config.sh
-     exec:
-        - bash /hostname.sh
-        - bash /client3-config.sh
+      kind: linux
+      binds:
+        - configs/client-config.sh:/client-config.sh
+      exec:
+        - bash /client1-config.sh 192.168.2.13
     client4:
-     kind: linux
-     binds:
-        - configs/hostname.sh:/hostname.sh
-        - configs/client4-config.sh:/client4-config.sh
-     exec:
-        - bash /hostname.sh
-        - bash /client4-config.sh
+      kind: linux
+      binds:
+        - configs/client-config.sh:/client-config.sh
+      exec:
+        - bash /client1-config.sh 192.168.2.14
 
   links:
-  ### #### fabric ### ####
+    ### #### fabric ### ####
     - endpoints: ["spine1:e1-1", "leaf1:e1-49"]
     - endpoints: ["spine1:e1-2", "leaf2:e1-49"]
     - endpoints: ["spine1:e1-3", "leaf3:e1-49"]
