@@ -10,17 +10,18 @@ The end service we will use on top of the kubernetes cluster is a Nginx HTTP ech
 
 For a detailed walkthrough of this lab please check the [SR Linux blog](https://learn.srlinux.dev/blog/2023/sr-linux-kubernetes-anycast-lab/).
 
+## Topology
 
-
-## Topology:
 <p align="center">
  <img src="images/topology.svg" width="600">
 </p>
 
 ## Goal
-Demonstrate kubernetes MetalLB load balancing scenario in a Containerlab+Minukube Lab.
+
+Demonstrate kubernetes MetalLB load balancing scenario in a Containerlab+Minikube Lab.
 
 ## Features
+
 - Containerlab topology
 - Minikube kubernetes cluster (3 nodes)
 - MetalLB integration (FRR mode)
@@ -28,8 +29,8 @@ Demonstrate kubernetes MetalLB load balancing scenario in a Containerlab+Minukub
 - Anycast services
 - Linux clients to simulate connections to k8s services (4 clients)
 
-
 ## Requirements
+
 - [Containerlab](https://containerlab.dev/)
 - [minikube](https://minikube.sigs.k8s.io)
 - [Docker](https://docs.docker.com/engine/install/)
@@ -64,8 +65,13 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/main/config/m
 ```
 
 ```bash
-# deploy k8s HTTP echo service (wait a few seconds for metalLB to complete installation)
-kubectl apply -f metal-lb-hello-cluster1.yaml
+# setup MetalLB
+kubectl apply -f metallb.yaml
+```
+
+```bash
+# Add k8s HTTP echo deployment and LB service
+kubectl apply -f nginx.yaml
 ```
 
 ## Tests
