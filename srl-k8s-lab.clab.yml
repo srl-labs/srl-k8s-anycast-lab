@@ -55,25 +55,25 @@ topology:
       binds:
         - configs/client-config.sh:/client-config.sh
       exec:
-        - bash /client1-config.sh 192.168.2.11
+        - bash /client-config.sh 192.168.2.11
     client2:
       kind: linux
       binds:
         - configs/client-config.sh:/client-config.sh
       exec:
-        - bash /client1-config.sh 192.168.2.12
+        - bash /client-config.sh 192.168.2.12
     client3:
       kind: linux
       binds:
         - configs/client-config.sh:/client-config.sh
       exec:
-        - bash /client1-config.sh 192.168.2.13
+        - bash /client-config.sh 192.168.2.13
     client4:
       kind: linux
       binds:
         - configs/client-config.sh:/client-config.sh
       exec:
-        - bash /client1-config.sh 192.168.2.14
+        - bash /client-config.sh 192.168.2.14
 
   links:
     ### #### fabric ### ####
