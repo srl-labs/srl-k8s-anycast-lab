@@ -1,0 +1,24 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: vip-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - 1.1.1.100-1.1.1.200
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: bgpadv
+  namespace: metallb-system
+---
+apiVersion: metallb.io/v1beta2
+kind: BGPPeer
+metadata:
+  name: peer
+  namespace: metallb-system
+spec:
+  myASN: 65535
+  peerASN: 65535
+  peerAddress: 192.168.1.1
